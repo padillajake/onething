@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>OneThing</title>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: #f0f0f0;
+        }
+        #title {
+            font-size: 48px;
+            font-family: Arial, sans-serif;
+            margin-bottom: 50px;
+        }
+        #dot {
+            width: 50px;
+            height: 50px;
+            background-color: red;
+            border-radius: 50%;
+            cursor: pointer;
+            position: absolute;
+        }
+    </style>
+</head>
+<body>
+    <h1 id="title">OneThing</h1>
+    <div id="dot"></div>
+    <script>
+        const dot = document.getElementById('dot');
+        
+        function moveDot() {
+            // Get window dimensions
+            const maxX = window.innerWidth - 50;  // 50 is dot width
+            const maxY = window.innerHeight - 50; // 50 is dot height
+            
+            // Generate random position
+            const newX = Math.floor(Math.random() * maxX);
+            const newY = Math.floor(Math.random() * maxY);
+            
+            // Move dot to new position
+            dot.style.left = newX + 'px';
+            dot.style.top = newY + 'px';
+        }
+
+        // Initial position
+        moveDot();
+
+        // Move dot when clicked
+        dot.addEventListener('click', moveDot);
+    </script>
+</body>
+</html>

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>OneThing</title>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            background-color: #f0f0f0;
+            padding-top: 50px;
+        }
+        #title {
+            font-size: 48px;
+            font-family: Arial, sans-serif;
+            margin-bottom: 50px;
+            color: #333;
+        }
+        #dot {
+            width: 50px;
+            height: 50px;
+            background-color: red;
+            border-radius: 50%;
+            cursor: pointer;
+            position: absolute;
+        }
+        #counter {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            font-size: 24px;
+            font-family: Arial, sans-serif;
+            color: #333;
+        }
+        #highScore {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            font-size: 24px;
+            font-family: Arial, sans-serif;
+            color: #333;
+        }
+        #timer {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            font-size: 24px;
+            font-family: Arial, sans-serif;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <h1 id="title">OneThing</h1>
+    <div id="highScore">High Score: 0</div>
+    <div id="counter">0</div>
+    <div id="timer">60</div>
+    <div id="dot"></div>
+    <script>
+        const dot = document.getElementById('dot');
+        const counter = document.getElementById('counter');
+        const highScore = document.getElementById('highScore');
+        const timer = document.getElementById('timer');
+        let clicks = 0;
+        let timeLeft = 60;
+        let timerInterval;
+        let gameStarted = false;
+        
+        function startTimer() {
+            if (!gameStarted) {
+                gameStarted = true;
+                timerInterval = setInterval(() => {
+                    timeLeft--;
+                    timer.textContent = timeLeft;
+                    
+                    if (timeLeft <= 0) {
+                        clearInterval(timerInterval);
+                        // Update high score if current score is higher
+                        const currentHighScore = parseInt(highScore.textContent.split(': ')[1]) || 0;
+                        if (clicks > currentHighScore) {
+                            highScore.textContent = `High Score: ${clicks}`;
+                        }
+                        // Reset game
+                        clicks = 0;
+                        counter.textContent = clicks;
+                        timeLeft = 60;
+                        timer.textContent = timeLeft;
+                        gameStarted = false;
+                    }
+                }, 1000);
+            }
+        }
+        
+        function moveDot() {
+            // Get window dimensions
+            const maxX = window.innerWidth - 50;  // 50 is dot width
+            const maxY = window.innerHeight - 50; // 50 is dot height
+            
+            // Generate random position
+            const newX = Math.floor(Math.random() * maxX);
+            const newY = Math.floor(Math.random() * maxY);
+            
+            // Move dot to new position
+            dot.style.left = newX + 'px';
+            dot.style.top = newY + 'px';
+            
+            // Increment counter
+            clicks++;
+            counter.textContent = clicks;
+            
+            // Start timer on first click
+            startTimer();
+        }
+
+        // Initial position
+        moveDot();
+
+        // Move dot when clicked
+        dot.addEventListener('click', moveDot);
+    </script>
+</body>
+</html> 
